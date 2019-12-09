@@ -1,14 +1,14 @@
 import React from "react";
 import { ControlledEditor } from "@monaco-editor/react";
 
-function Editor({ onChange, code }) {
+function Editor({ code, handleOnChange }) {
   return (
     <ControlledEditor
       value={code}
       language="javascript"
       theme="vs-dark"
       options={{ fontSize: "16px" }}
-      onChange={onChange}
+      onChange={handleOnChange}
     />
   );
 }
