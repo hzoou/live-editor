@@ -1,15 +1,16 @@
-import React from 'react';
-import { ControlledEditor } from '@monaco-editor/react';
+import React from "react";
+import { ControlledEditor } from "@monaco-editor/react";
 
-function Editor() {
-    return (
-        <ControlledEditor
-            value="test"
-            language="javascript"
-            theme="vs-dark"
-            options={{ fontSize: '16px'}}
-        />
-    );
+function Editor({ onChange, code }) {
+  return (
+    <ControlledEditor
+      value={code}
+      language="javascript"
+      theme="vs-dark"
+      options={{ fontSize: "16px" }}
+      onChange={onChange}
+    />
+  );
 }
 
 export default Editor;
