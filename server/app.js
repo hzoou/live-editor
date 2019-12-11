@@ -7,7 +7,7 @@ const opParser = require('./ot/operationParser');
 const rooms = {};
 
 io.on('connection', socket => {
-    socket.emit('connectted');
+    socket.emit('connected');
     socket.on('joinRoom', (room, init) => {
         console.log(`${socket.id}: join room ${room}`);
         if (!rooms[room]) {
@@ -24,7 +24,6 @@ io.on('connection', socket => {
         socket.join(room);
     });
     socket.on('change', value => {
-        console.log(value);
         const roomName = 'basiltoast';
         const history = rooms[roomName].history;
         const oldOp = history[history.length - 1];
@@ -33,7 +32,6 @@ io.on('connection', socket => {
         const content = merge(newOp, rooms[roomName].content);
         rooms[roomName].content = content;
         // socket.broadcast.to(roomName).emit('change', socket.id, newOp);
-        console.log(content);
         io.sockets.in(roomName).emit('change', socket.id, content);
     });
 });

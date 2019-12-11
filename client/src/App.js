@@ -6,13 +6,13 @@ import Editor from './Editor';
 import opParser from './ot/operationParser';
 
 let socket = undefined;
-const endpoint = 'http://172.16.180.126:3030';
+const endpoint = 'http://localhost:3030';
 const roomName = 'basiltoast';
 
-const initailValue = '';
+const initialValue = '';
 
 function App() {
-    const [code, setCode] = useState(initailValue);
+    const [code, setCode] = useState(initialValue);
     const [eventMask, setEventMask] = useState(false);
     const [isPending, setIsPending] = useState(false);
     const [value, setValue] = useState('');
@@ -20,8 +20,8 @@ function App() {
 
     const initSocketSetting = () => {
         socket = io(endpoint);
-        socket.on('connectted', () =>
-            socket.emit('joinRoom', roomName, initailValue)
+        socket.on('connected', () =>
+            socket.emit('joinRoom', roomName, initialValue)
         );
         socket.on('change', (id, value) => {
             if (socket.id === id) return setIsPending(false);
@@ -79,8 +79,8 @@ function App() {
     return (
         <Editor
             handleOnChange={handleOnChange}
-            code={code}
             handleDidMount={handleDidMount}
+            code={code}
         />
     );
 }
