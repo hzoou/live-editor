@@ -31,8 +31,11 @@ io.on('connection', socket => {
         history.push(newOp);
         const content = merge(newOp, rooms[roomName].content);
         rooms[roomName].content = content;
-        // socket.broadcast.to(roomName).emit('change', socket.id, newOp);
-        io.sockets.in(roomName).emit('change', socket.id, content);
+        const result = {
+            content,
+            operation: newOp
+        };
+        io.sockets.in(roomName).emit('change', socket.id, result);
     });
 });
 

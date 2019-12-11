@@ -10,6 +10,7 @@ const endpoint = 'http://localhost:3030';
 const roomName = 'basiltoast';
 
 const initialValue = '';
+const DELAY = 30;
 
 function App() {
     const [code, setCode] = useState(initialValue);
@@ -23,10 +24,13 @@ function App() {
         socket.on('connected', () =>
             socket.emit('joinRoom', roomName, initialValue)
         );
-        socket.on('change', (id, value) => {
-            if (socket.id === id) return setIsPending(false);
+        socket.on('change', (id, { content, operation }) => {
+            if (socket.id === id) {
+                const setPendingOver = () => setIsPending(false);
+                return setTimeout(setPendingOver, DELAY);
+            }
             setEventMask(true);
-            setCode(value);
+            setCode(content);
             // handleSelection();
         });
     };
@@ -46,7 +50,7 @@ function App() {
         socket.emit('change', op);
     }, [code, value]);
 
-    const handleOnChange = (event, value) => {
+    const handleOnChange = (_, value) => {
         setValue(value);
     };
 
@@ -75,6 +79,7 @@ function App() {
     };
 
     useEffect(initSocketSetting, []);
+    useEffect(handleSelection, [code]);
 
     return (
         <Editor
